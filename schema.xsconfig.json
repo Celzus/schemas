@@ -1,0 +1,81 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "XSConfig",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Name of the XSharp project"
+        },
+        "pversion": {
+            "type": "string",
+            "description": "Project Version"
+        },
+        "version": {
+            "type": "string",
+            "description": "The version of the XS compiler the project requires"
+        },
+        "entry": {
+            "type": "string",
+            "description": "Path to the entry point file (e.g. index.xs)"
+        },
+        "charset": {
+            "type": "string",
+            "enum": ["UTF-8", "ASCII", "UTF-16"],
+            "default": "UTF-8"
+        },
+        "compilerOptions": {
+            "type": "object",
+            "properties": {
+                "optimize": { "type": "boolean" },
+                "strictTypes": { "type": "boolean" },
+                "allowUnsafe": { "type": "boolean" },
+                "target": {
+                    "type": "string",
+                    "enum": ["xsb", "exe"],
+                    "default": "xsb",
+                    "description": "Build output format"
+                },
+                "outputDir": { "type": "string" },
+                "debugSymbols": { "type": "boolean" }
+            },
+            "additionalProperties": false
+        },
+        "imports": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-zA-Z0-9_-]+$": {
+                    "type": "string",
+                    "enum": ["native", "lazy", "file"]
+                }
+            },
+            "description": "Module import behavior"
+        },
+        "threads": {
+            "type": "object",
+            "properties": {
+                "defaultStackSize": {
+                    "type": "number",
+                    "description": "In KB"
+                },
+                "maxThreads": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false
+        },
+        "security": {
+            "type": "object",
+            "properties": {
+                "sandboxed": { "type": "boolean" },
+                "allowedAPIs": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": ["name", "version", "entry"],
+    "additionalProperties": false
+}
